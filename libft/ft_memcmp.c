@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paradari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/19 14:27:03 by paradari          #+#    #+#             */
-/*   Updated: 2024/03/19 14:27:05 by paradari         ###   ########.fr       */
+/*   Created: 2023/08/27 19:14:03 by paradari          #+#    #+#             */
+/*   Updated: 2023/08/27 19:34:52 by paradari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	main(int argc, char **argv)
-{
-	char	***cmd;
-	int		i;
+#include "libft.h"
 
-	i = 1;
-	cmd = malloc(sizeof(char *) * 3);
-	if (!cmd)
-		return (NULL);
-	while (i++ < 3)
-		cmd[i - 2] = ft_split(argv[i], ' ');
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
+{
+	const unsigned char	*str1;
+	const unsigned char	*str2;
+
+	str1 = s1;
+	str2 = s2;
+	while (n-- > 0)
+	{
+		if (*str1 != *str2)
+			return (*str1 - *str2);
+		str1++;
+		str2++;
+	}
+	return (0);
 }

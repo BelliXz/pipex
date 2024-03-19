@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paradari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/19 14:27:03 by paradari          #+#    #+#             */
-/*   Updated: 2024/03/19 14:27:05 by paradari         ###   ########.fr       */
+/*   Created: 2023/08/27 19:35:42 by paradari          #+#    #+#             */
+/*   Updated: 2023/08/27 20:25:33 by paradari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	main(int argc, char **argv)
-{
-	char	***cmd;
-	int		i;
+#include "libft.h"
 
-	i = 1;
-	cmd = malloc(sizeof(char *) * 3);
-	if (!cmd)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	char		*destp;
+	const char	*srcp;
+
+	if (!dest && !src)
+	{
 		return (NULL);
-	while (i++ < 3)
-		cmd[i - 2] = ft_split(argv[i], ' ');
+	}
+	destp = (char *)dest;
+	srcp = src;
+	while (n-- > 0)
+	{
+		*destp = *srcp;
+		destp++;
+		srcp++;
+	}
+	return (dest);
 }

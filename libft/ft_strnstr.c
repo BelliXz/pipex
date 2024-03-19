@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paradari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/19 14:27:03 by paradari          #+#    #+#             */
-/*   Updated: 2024/03/19 14:27:05 by paradari         ###   ########.fr       */
+/*   Created: 2023/08/27 18:01:51 by paradari          #+#    #+#             */
+/*   Updated: 2023/11/02 13:31:09 by paradari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	main(int argc, char **argv)
-{
-	char	***cmd;
-	int		i;
+#include "libft.h"
 
-	i = 1;
-	cmd = malloc(sizeof(char *) * 3);
-	if (!cmd)
-		return (NULL);
-	while (i++ < 3)
-		cmd[i - 2] = ft_split(argv[i], ' ');
+char	*ft_strnstr(const char *str, const char *need, size_t len)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	if (*need == '\0')
+		return ((char *)str);
+	while (i < len && str[i])
+	{
+		j = 0;
+		while (str[i + j] && need[j] && i + j < len && str[i + j] == need[j])
+			j++;
+		if (!need[j])
+			return ((char *)(str + i));
+		i++;
+	}
+	return (NULL);
 }

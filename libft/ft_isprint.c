@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paradari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/19 14:27:03 by paradari          #+#    #+#             */
-/*   Updated: 2024/03/19 14:27:05 by paradari         ###   ########.fr       */
+/*   Created: 2023/08/26 19:04:48 by paradari          #+#    #+#             */
+/*   Updated: 2023/08/26 19:14:05 by paradari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	main(int argc, char **argv)
-{
-	char	***cmd;
-	int		i;
+#include "libft.h"
 
-	i = 1;
-	cmd = malloc(sizeof(char *) * 3);
-	if (!cmd)
-		return (NULL);
-	while (i++ < 3)
-		cmd[i - 2] = ft_split(argv[i], ' ');
+int	ft_isprint(int c)
+{
+	if (c >= 32 && c <= 126)
+		return (1);
+	return (0);
 }

@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paradari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/19 14:27:03 by paradari          #+#    #+#             */
-/*   Updated: 2024/03/19 14:27:05 by paradari         ###   ########.fr       */
+/*   Created: 2023/09/01 14:53:13 by paradari          #+#    #+#             */
+/*   Updated: 2023/09/01 14:55:13 by paradari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	main(int argc, char **argv)
-{
-	char	***cmd;
-	int		i;
+#include "libft.h"
 
-	i = 1;
-	cmd = malloc(sizeof(char *) * 3);
-	if (!cmd)
+void	*ft_calloc(size_t n, size_t size)
+{
+	void	*mem;
+
+	mem = malloc(n * size);
+	if (!mem)
 		return (NULL);
-	while (i++ < 3)
-		cmd[i - 2] = ft_split(argv[i], ' ');
+	ft_bzero(mem, n * size);
+	return (mem);
 }

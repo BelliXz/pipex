@@ -1,24 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paradari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/19 14:27:03 by paradari          #+#    #+#             */
-/*   Updated: 2024/03/19 14:27:05 by paradari         ###   ########.fr       */
+/*   Created: 2023/09/01 14:57:34 by paradari          #+#    #+#             */
+/*   Updated: 2023/11/02 16:30:32 by paradari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	main(int argc, char **argv)
-{
-	char	***cmd;
-	int		i;
+#include "libft.h"
 
-	i = 1;
-	cmd = malloc(sizeof(char *) * 3);
-	if (!cmd)
-		return (NULL);
-	while (i++ < 3)
-		cmd[i - 2] = ft_split(argv[i], ' ');
+void	*ft_memmove(void *dest, const void *src, size_t len)
+{
+	char	*d;
+	char	*s;
+	size_t	i;
+
+	if (dest != 0 || src != 0)
+	{
+		d = (char *)dest;
+		s = (char *)src;
+		if (d > s)
+		{
+			i = len;
+			while (i-- > 0)
+				d[i] = s[i];
+		}
+		else
+		{
+			i = 0;
+			while (i < len)
+			{
+				d[i] = s[i];
+				i++;
+			}
+		}
+	}
+	return (dest);
 }
