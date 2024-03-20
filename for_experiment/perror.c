@@ -8,9 +8,9 @@ int main () {
    /* now let's try to open same file */
    fp = fopen("test.txt", "r");
    if( fp == NULL ) {
-    test = strerror(errno);
-    printf("%s\n", strerror(errno));
-    //   perror("Error");
+    strerror(errno);
+   //  printf("%s\n", strerror(errno));
+      perror("Success");
       return(-1);
    }
     fclose(fp);

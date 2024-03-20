@@ -4,11 +4,13 @@
 int main()
 {
 	char *args[3];
+	int		i;
  
-	args[0] = "cat";
-	args[1] = "execve.c";
+	args[0] = "/bin/ls";
+	args[1] = "-l";
 	args[2] = NULL;
-	execve("/bin/cat", args, NULL);
+	i = execve(args[0], args, NULL);
+	printf("i = %d\n",i);
 	printf("This line will not be executed.\n");
  
 	return (0);

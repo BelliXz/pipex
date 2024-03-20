@@ -118,21 +118,99 @@ char	**ft_split(char const *s, char c)
 	return (splits);
 }
 
-// int	ft_check_cmd(char **cmd)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
+{
+	const unsigned char	*str1;
+	const unsigned char	*str2;
+
+	str1 = s1;
+	str2 = s2;
+	while (n-- > 0)
+	{
+		if (*str1 != *str2)
+			return (*str1 - *str2);
+		str1++;
+		str2++;
+	}
+	return (0);
+}
+
+int	ft_check_cmd(char **cmd)
+{
+	return 0;
+}
+
+// void	ft_delprefix(char *cmd_path)
 // {
-// 	return 0;
+
 // }
 
-char	**ft_findpath(char **envp)
+char	**ft_collect_path(char	*path)//collectpath
+{
+	char	**cmd_path;
+	int		i;
+
+	i = 0;
+	cmd_path = ft_split(path, ':');
+	return (cmd_path);
+}
+
+// void	*ft_memchr(const void *s, int c, size_t n)//collectpath
+// {
+// 	size_t	i;
+
+// 	i = 0;
+// 	while (i < n)
+// 	{
+// 		if (*(unsigned char *)(s + i) == (unsigned char)c)
+// 			return ((void *)(s + i));
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+
+char	**ft_findpath(char **envp)//collectpath
+{
+	char	**cmd_path;
+	int		i;
+	int		p_index;
+
+	p_index = -1;
+	i = 0;
+	while(envp[i])
+	{
+		if (!(ft_memcmp(envp[i], "PATH=", 5)))
+		{
+			p_index = i;
+			break;
+		}
+		i++;
+	}
+	if (p_index >= 0)
+	{
+		cmd_path = ft_collect_path(envp[p_index] + 5);
+		return (cmd_path);
+	}
+	return (NULL);
+}
+
+// int	ft_check_infile(char *infile)
+// {
+// 	int	fd;
+
+// 	fd = open(*infile, RD_ONLY)
+// 	if()
+// }
 
 int	main(int argc, char **argv, char **envp)
 {
 	char	***cmd;
-	char 	**dst;
+	char 	**cmd_path;
 	int		i;
 	int		j;
 
-	dst = ft_findpath(envp);
+	cmd_path = ft_findpath(envp);
 	if(argc != 5)
 	{
 		printf ("Error input\n");
@@ -146,15 +224,33 @@ int	main(int argc, char **argv, char **envp)
 		return (0);
 	}
 	while (i++ < 3)
-		cmd[i - 2] = ft_split(argv[i], ' ');
+		cmd[i - 2] = ft_split(argv[i], ' ');//collectcmd
     cmd[2] = NULL;
+	// printf("%s\n", argv[2]);
+	// if(execve(argv[2], "ls -l", NULL))
+	// 	perror("Error");
+	// if(ft_check_cmd(cmd_path, cmd) && ft_check_infile(argv[1]))
+	// {
+		
+	// }
+	// i = 0;
+	// while(envp[i])
+	// {
+		// j = 0;
+		// while (cmd_path[i][j])
+		// {
+			// printf("from index[%d][%d] : %s\n", i, j, envp[37]);
+			// j++;
+		// }
+		// i++;
+	// }
 	i = 0;
-	while(envp[i])
+	while(cmd_path[i])
 	{
 		j = 0;
-		// while (envp[i][j])
+		// while (cmd_path[i][j])
 		// {
-			printf("from index[%d][%d] : %s\n", i, j, envp[i]);
+			printf("from index[%d][%d] : %s\n", i, j, cmd_path[i]);
 			j++;
 		// }
 		i++;
