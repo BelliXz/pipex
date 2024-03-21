@@ -14,6 +14,19 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+size_t	ft_strlen(const char *s)
+{
+	size_t	size;
+
+	size = 0;
+	while (*s)
+	{
+		size++;
+		s++;
+	}
+	return (size);
+}
+
 size_t	ft_countwords(char *s, char c)
 {
 	size_t	i;
@@ -135,15 +148,41 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 	return (0);
 }
 
-int	ft_check_cmd(char **cmd)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	return 0;
+	char	*str;
+	int		i;
+	int		j;
+
+	str = (char *)malloc(sizeof(*s1) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j])
+	{
+		str[i] = s2[j];
+		i++;
+		j++;
+	}
+	str[i] = '\0';
+	return (str);
 }
 
-// void	ft_delprefix(char *cmd_path)
-// {
+char	*ft_strrejoin(char *s1, char const *s2)
+{
+	char	*tmp;
 
-// }
+	tmp = s1;
+	s1 = ft_strjoin(s1, s2);
+	free(tmp);
+	return (s1);
+}
 
 char	**ft_collect_path(char	*path)//collectpath
 {
@@ -152,22 +191,15 @@ char	**ft_collect_path(char	*path)//collectpath
 
 	i = 0;
 	cmd_path = ft_split(path, ':');
+	while(cmd_path[i])
+	{
+		cmd_path[i] = ft_strrejoin(cmd_path[i], "/");
+		i++;
+	}
 	return (cmd_path);
 }
 
-// void	*ft_memchr(const void *s, int c, size_t n)//collectpath
-// {
-// 	size_t	i;
 
-// 	i = 0;
-// 	while (i < n)
-// 	{
-// 		if (*(unsigned char *)(s + i) == (unsigned char)c)
-// 			return ((void *)(s + i));
-// 		i++;
-// 	}
-// 	return (0);
-// }
 
 
 char	**ft_findpath(char **envp)//collectpath
@@ -203,6 +235,59 @@ char	**ft_findpath(char **envp)//collectpath
 // 	if()
 // }
 
+int	ft_check_cmd(char *cmd, char **cmd_path)
+{
+	int		i;
+	int		flag;
+	char	*finalpath;
+
+	if (!cmd || !cmd_path)
+		return(0);
+	i = 0;
+	flag = 0;
+	while (cmd_path[i])
+	{
+		finalpath = ft_strjoin(cmd_path[i], cmd);
+		printf("\nPATH= %s", finalpath);
+		if(!access(finalpath, F_OK))
+		{
+			flag = 1;
+			free(finalpath);
+			break;
+		}
+		free(finalpath);
+		i++;
+	}
+	return (flag);
+}
+
+void	ft_exec(char ***cmd, char **path, char **argv)
+{
+	int		fd[2];
+	pid_t	pid;
+
+	if (pipe(fd) == -1)
+	{
+		perror("Error");
+		exit(1);
+	}
+	 pid = fork();
+	 if (pid == 0)
+	 {
+		//result = exeve cmd1
+		close(fd[0]);
+		write(fd[1], result, ft_strlen(result));
+		close(fd[1]);
+		exit(0);
+	 }
+	 else
+	 {
+		wait(NULL);
+		close(fd[1]);
+		read(fd[0], buff, ft_strlen(fd[0]));
+	 }
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	***cmd;
@@ -226,6 +311,15 @@ int	main(int argc, char **argv, char **envp)
 	while (i++ < 3)
 		cmd[i - 2] = ft_split(argv[i], ' ');//collectcmd
     cmd[2] = NULL;
+	i = 0;
+	while (cmd[i] && (ft_check_cmd(cmd[i][0], cmd_path)))
+		i++;
+	printf("\ni afterchk = %d\n",i);
+	if(i < 2)
+		printf("cmd error\n");
+	else
+		printf("cmd good\n");
+	ft_exec(char ***cmd, char **path, char **argv);
 	// printf("%s\n", argv[2]);
 	// if(execve(argv[2], "ls -l", NULL))
 	// 	perror("Error");
@@ -244,7 +338,7 @@ int	main(int argc, char **argv, char **envp)
 		// }
 		// i++;
 	// }
-	i = 0;
+	// i = 0;
 	while(cmd_path[i])
 	{
 		j = 0;
