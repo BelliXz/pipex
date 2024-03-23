@@ -15,7 +15,6 @@ int main()
 	}
  
 	pid = fork();
-    pid = -1;
 	if (pid == -1)
 	{
 		perror("fork");
@@ -25,7 +24,7 @@ int main()
 	if (pid == 0)
 	{
 		close(fd[0]); // close the read end of the pipe
-		write(fd[1], "Hello parent!", 13);
+		write(fd[1], "Hello parent!", 12);
 		close(fd[1]); // close the write end of the pipe
 		exit(EXIT_SUCCESS);
 	}
